@@ -8,7 +8,7 @@ For now it just generates a mrkdown file with all comments for all books.
 Usage
 -----
 
-iBooks stores books and comments data in 2 folders: `~/Library/Containers/com.apple.iBooksX/Data/Documents/BKLibrary` and `~/Library/Containers/com.apple.iBooksX/Data/Documents/AEAnnotation`.
+iBooks stores books and comments data in `~/Library/Containers/com.apple.iBooksX/Data/Documents`.
 That is valid in time of writing, that actually might change later.
 Both paths must be provided to script via ENV variables:
-`LIBRARY_DIR=BKLibrary ANNOTATION_DIR=AEAnnotation ruby ibooks.rb`
+`DATA_DIR=iBooksX/Data/Documents ruby ibooks.rb`

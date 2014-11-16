@@ -1,15 +1,25 @@
 require 'sqlite3'
 
-LIBRARY_DIR = ENV['LIBRARY_DIR']
-ANNOTATION_DIR = ENV['ANNOTATION_DIR']
+module Base
+  def find_db(dir)
+    Dir.glob(File.expand_path(File.join(dir, '*.sqlite'))).first
+  end
 
-def find_db(dir)
-  Dir.glob(File.expand_path(File.join(dir, '*.sqlite'))).first
+  def connect_db(sub_dir)
+    full_path = File.join(Base.data_path, sub_dir)
+    SQLite3::Database.open(find_db(full_path), readonly: true)
+  end
+
+  class << self
+    attr_accessor :data_path
+  end
 end
 
 class Book < Struct.new(:asset_id, :title)
+  extend Base
+
   def self.book_key_title_db
-    @book_key_title_db ||= SQLite3::Database.open(find_db(LIBRARY_DIR), readonly: true)
+    @book_key_title_db ||= connect_db('BKLibrary')
   end
 
   def self.all
@@ -23,6 +33,8 @@ class Book < Struct.new(:asset_id, :title)
 end
 
 class Annotation < Struct.new(:note, :selected_text)
+  extend Base
+
   def selected_text?
     !selected_text.nil?
   end
@@ -32,7 +44,7 @@ class Annotation < Struct.new(:note, :selected_text)
   end
 
   def self.book_notes_db
-    @book_notes_db ||= SQLite3::Database.open(find_db(ANNOTATION_DIR), readonly: true)
+    @book_key_title_db ||= connect_db('AEAnnotation')
   end
 
   def self.all_for_book(asset_id)
@@ -41,6 +53,8 @@ class Annotation < Struct.new(:note, :selected_text)
     res.map { |row| Annotation.new(*row[0, 2]) }
   end
 end
+
+Base.data_path = ENV['DATA_DIR']
 
 Book.all.each do |book|
   puts "## #{book.title}\n\n"
