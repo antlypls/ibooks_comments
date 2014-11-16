@@ -11,4 +11,4 @@ Usage
 iBooks stores books and comments data in `~/Library/Containers/com.apple.iBooksX/Data/Documents`.
 That is valid in time of writing, that actually might change later.
 Both paths must be provided to script via ENV variables:
-`DATA_DIR=iBooksX/Data/Documents ruby ibooks.rb`
+`DATA_DIR=iBooksX/Data/Documents ./ibooks`
