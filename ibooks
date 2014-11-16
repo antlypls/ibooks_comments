@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-require_relative 'base'
-require_relative 'book'
-require_relative 'annotation'
+require_relative 'lib/base'
+require_relative 'lib/book'
+require_relative 'lib/annotation'
 
 Base.data_path = ENV['DATA_DIR']
 
